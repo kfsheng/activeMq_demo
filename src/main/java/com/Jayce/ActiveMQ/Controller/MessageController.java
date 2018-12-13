@@ -5,6 +5,7 @@ import com.Jayce.ActiveMQ.Service.ProducerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,9 +31,9 @@ public class MessageController {
     @Resource(name = "consumerService")
     private ConsumerService consumer;
 
-    @RequestMapping(value = "/SendMessage", method = RequestMethod.POST)
+    @RequestMapping(value = "/SendMessage", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public void send(String msg) {
+    public void send(@RequestBody String msg) {
         logger.info(Thread.currentThread().getName()+"------------send to jms Start");
         producer.sendMessage(msg);
         logger.info(Thread.currentThread().getName()+"------------send to jms End");
