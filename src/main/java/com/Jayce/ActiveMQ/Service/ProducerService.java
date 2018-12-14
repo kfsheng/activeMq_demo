@@ -28,7 +28,12 @@ public class ProducerService {
         });
     }
 
-    public void sendMessage(final String msg){
+    public void sendMessage(final String msg) {
+        try {
+            Thread.sleep(20000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String destination = jmsTemplate.getDefaultDestinationName();
         System.out.println(Thread.currentThread().getName()+" 向队列"+destination+"发送消息---------------------->"+msg);
         jmsTemplate.send(new MessageCreator() {

@@ -33,10 +33,16 @@ public class MessageController {
 
     @RequestMapping(value = "/SendMessage", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public void send(@RequestBody String msg) {
+    public String send(@RequestBody String msg) {
         logger.info(Thread.currentThread().getName()+"------------send to jms Start");
-        producer.sendMessage(msg);
+        //启动一个新的线程
+        new Thread(){
+            public void run(){
+                producer.sendMessage(msg);
+            }
+        }.start();
         logger.info(Thread.currentThread().getName()+"------------send to jms End");
+        return "success";
     }
 
     @RequestMapping(value= "/ReceiveMessage",method = RequestMethod.GET)
